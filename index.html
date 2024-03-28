@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ratio to Percentage Strength Converter</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+    }
+    input[type="text"],
+    input[type="number"],
+    button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    #result {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: #0056b3; /* Vivid blue text */
+        font-weight: bold;
+        font-size: 18px; /* Larger font size */
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Ratio to Percentage Strength Converter</h2>
+    <label for="ratioInput">Enter Ratio (e.g., 1:200):</label>
+    <input type="text" id="ratioInput" placeholder="Enter ratio">
+    <button onclick="convertRatioToPercentage()">Convert to Percentage</button>
+    <label for="percentageInput">Enter Percentage:</label>
+    <input type="number" id="percentageInput" placeholder="Enter percentage">
+    <button onclick="convertPercentageToRatio()">Convert to Ratio</button>
+    <div id="result"></div>
+</div>
+
+<script>
+function convertRatioToPercentage() {
+    const ratioInput = document.getElementById('ratioInput').value.trim();
+    const parts = ratioInput.split(':');
+    if (parts.length !== 2) {
+        alert('Invalid input! Please enter a valid ratio (e.g., 1:200)');
+        return;
+    }
+    const numerator = parseFloat(parts[0]);
+    const denominator = parseFloat(parts[1]);
+    if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
+        alert('Invalid input! Please enter a valid ratio (e.g., 1:200)');
+        return;
+    }
+    const percentage = (numerator / denominator) * 100;
+    document.getElementById('result').innerHTML = `${ratioInput} is equivalent to ${percentage.toFixed(2)}%`;
+    document.getElementById('result').style.backgroundColor = '#e6f7ff'; /* Lighter blue background */
+}
+
+function convertPercentageToRatio() {
+    const percentageInput = document.getElementById('percentageInput').value.trim();
+    const percentage = parseFloat(percentageInput);
+    if (isNaN(percentage)) {
+        alert('Invalid input! Please enter a valid percentage.');
+        return;
+    }
+    const numerator = percentage;
+    const denominator = 100;
+    const gcd = greatestCommonDivisor(numerator, denominator);
+    const ratio = `${numerator / gcd}:${denominator / gcd}`;
+    document.getElementById('result').innerHTML = `${percentage}% is equivalent to ${ratio}`;
+    document.getElementById('result').style.backgroundColor = '#ffe6e6'; /* Lighter red background */
+}
+
+function greatestCommonDivisor(a, b) {
+    if (!b) {
+        return a;
+    }
+    return greatestCommonDivisor(b, a % b);
+}
+</script>
+</body>
+</html>
